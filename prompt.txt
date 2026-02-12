@@ -1,0 +1,95 @@
+You are a senior AI engineer and Python developer.
+
+Objective
+Create a production-ready Google Colab notebook that uses OpenAI Whisper (API-based, NOT local) to:
+1) Transcribe German speech from an audio file.
+2) Translate the speech directly into English using Whisper translate mode.
+3) Save structured outputs with metadata.
+4) Support long audio with automatic chunking.
+
+Hard Requirements
+- Use OpenAI Whisper via API (no local Whisper installation).
+- Use Whisper translate mode to convert German speech → English text directly.
+- Use the current OpenAI Python SDK (no deprecated syntax).
+
+Environment
+- Google Colab (Python 3)
+- Install minimal dependencies only.
+- Support:
+  - Upload from local machine
+  - Optional Google Drive mount
+- Accept formats: mp3, wav, m4a, flac, ogg, mp4
+
+Security
+- Use OPENAI_API_KEY from environment variable.
+- Never hardcode keys.
+- Validate presence of API key before execution.
+
+User Inputs
+- audio file path
+- source_language_hint = "de" (default German)
+- chunk_duration_minutes (default 5)
+- temperature (default 0)
+
+Processing Logic
+
+1) Audio Validation
+- Confirm file exists.
+- Display file size.
+- Detect duration (if possible).
+- Warn if file exceeds recommended API limits.
+
+2) Automatic Chunking
+- If audio is long:
+  - Split into 5-minute segments using pydub.
+  - Process sequentially.
+  - Merge translations in correct order.
+- Log chunk count and processing time.
+
+3) Whisper Translation
+- Use Whisper translate mode.
+- Convert German speech → English text directly.
+- Return:
+  - translated_text
+  - detected_language (if available)
+  - segment timestamps (if supported)
+
+4) Output Files
+Save:
+- translation_english.txt
+- transcript_metadata.json including:
+    filename,
+    duration,
+    file_size,
+    chunk_count,
+    model_used,
+    detected_language,
+    created_at timestamp
+
+5) Notebook Output
+- Display translated English text clearly.
+- Provide download links.
+- Log total processing time.
+
+6) Code Structure
+Implement modular functions:
+- load_audio()
+- get_audio_duration()
+- chunk_audio_if_needed()
+- whisper_translate_chunk()
+- whisper_translate_audio()
+- save_outputs()
+
+7) Reliability
+- Graceful error handling.
+- Clear user messages.
+- Timing metrics.
+- No deprecated API usage.
+
+Deliver the output as:
+- Structured Colab notebook
+- Markdown + Python cells
+- Clear execution flow
+- Final “Run All Checklist”
+
+Generate full working notebook content now.
